@@ -50,7 +50,10 @@ describe("Example", function () {
                 a_uint256: uint256.bnToUint256(230), b_uint256: uint256.bnToUint256(30)
             });
             const solidityHash = await ethExample.getKeccakOnlyUint(230, 30);
-            expect(solidityHash).to.deep.equal("0x" + uint256.uint256ToBN(hash).toString(16));
+            const starknetHash = "0x" + uint256.uint256ToBN(hash).toString(16);
+            console.log("Solidity hash: ", solidityHash);
+            console.log("Starknet hash: ", starknetHash);
+            expect(solidityHash).to.deep.equal(starknetHash);
         });
 
         it("Should have the same hash as solidity keccak256(abi.encodePacked(uint256, address))", async function () {
@@ -58,7 +61,10 @@ describe("Example", function () {
                 a_uint256: uint256.bnToUint256(230), address: "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
             });
             const solidityHash = await ethExample.getKeccakUintAddress(230, "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266");
-            expect(solidityHash).to.deep.equal("0x" + uint256.uint256ToBN(hash).toString(16));
+            const starknetHash = "0x" + uint256.uint256ToBN(hash).toString(16);
+            console.log("Solidity hash: ", solidityHash);
+            console.log("Starknet hash: ", starknetHash);
+            expect(solidityHash).to.deep.equal(starknetHash);
         });
 
         it("Should have the same hash as solidity keccak256(abi.encodePacked(address, uint256))", async function () {
@@ -66,7 +72,10 @@ describe("Example", function () {
                 address: "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266", value_uint256: uint256.bnToUint256(230)
             });
             const solidityHash = await ethExample.getKeccakAddressUint("0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266", 230);
-            expect(solidityHash).to.deep.equal("0x" + uint256.uint256ToBN(hash).toString(16));
+            const starknetHash = "0x" + uint256.uint256ToBN(hash).toString(16);
+            console.log("Solidity hash: ", solidityHash);
+            console.log("Starknet hash: ", starknetHash);
+            expect(solidityHash).to.deep.equal(starknetHash);
         });
     });
 });
