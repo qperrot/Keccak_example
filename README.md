@@ -7,10 +7,10 @@ The `contracts` directory contains the following subfolders:
 ```
 contracts/cairo
 	utils/ - contains utility functions as bytes and some other common functions
-    exemple.cairo - the main contract that calculate keccak256(abi.encodePacked(_address, _value)) in cairo;
+	exemple.cairo - the main contract that calculate keccak256(abi.encodePacked(_address, _value)) in cairo;
 
 contracts/solidity
-    exemple.sol - the main contract that return keccak256(abi.encodePacked(_address, _value));
+	exemple.sol - the main contract that return keccak256(abi.encodePacked(_address, _value));
 ```
 
 ## Running the tests
