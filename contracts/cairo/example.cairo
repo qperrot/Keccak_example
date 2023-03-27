@@ -7,6 +7,7 @@ from starkware.cairo.common.cairo_keccak.keccak import (
     finalize_keccak,
     keccak_bigend,
     keccak_add_uint256s,
+    keccak_uint256s_bigend,
 )
 from starkware.cairo.common.bool import TRUE
 from starkware.cairo.common.memcpy import memcpy
@@ -19,8 +20,57 @@ func constructor{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     return ();
 }
 
+// Similare to keccak256(abi.encodePacked(a_uint256, b_uint256));
 @view
-func getKeccakHash{
+func getKeccakOnlyUint{
+    syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
+}(a_uint256: Uint256, b_uint256: Uint256) -> (hash: Uint256) {
+    alloc_locals;
+    let (local keccak_ptr: felt*) = alloc();
+    let keccak_ptr_start = keccak_ptr;
+
+    let (data_uint: Uint256*) = alloc();
+    assert data_uint[0] = a_uint256;
+    assert data_uint[1] = b_uint256;
+
+    // Compute the hash
+    let (hash) = keccak_uint256s_bigend{keccak_ptr=keccak_ptr}(n_elements=2, elements=data_uint);
+
+    finalize_keccak(keccak_ptr_start=keccak_ptr_start, keccak_ptr_end=keccak_ptr);
+    return (hash,);
+}
+
+// Similare to keccak256(abi.encodePacked(uint256, address));
+@view
+func getKeccakUintAddress{
+    syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
+}(a_uint256: Uint256, address: felt) -> (hash: Uint256) {
+    alloc_locals;
+    let (local keccak_ptr: felt*) = alloc();
+    let keccak_ptr_start = keccak_ptr;
+
+    let (address_uint256) = felt_to_uint256(address);
+    // Do right padding if address len is less than 32
+    let (padded_address) = pad_right(address_uint256, 20);
+
+    let (data_uint: Uint256*) = alloc();
+    assert data_uint[0] = a_uint256;
+    assert data_uint[1] = padded_address;
+
+    let (signable_bytes) = alloc();
+    let signable_bytes_start = signable_bytes;
+    keccak_add_uint256s{inputs=signable_bytes}(n_elements=2, elements=data_uint, bigend=TRUE);
+
+    // Compute the hash
+    let (hash) = keccak_bigend{keccak_ptr=keccak_ptr}(inputs=signable_bytes_start, n_bytes=32 + 20);
+
+    finalize_keccak(keccak_ptr_start=keccak_ptr_start, keccak_ptr_end=keccak_ptr);
+    return (hash,);
+}
+
+// Similare to keccak256(abi.encodePacked(address, uint256));
+@view
+func getKeccakAddressUint{
     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
 }(address: felt, value_uint256: Uint256) -> (hash: Uint256) {
     alloc_locals;
