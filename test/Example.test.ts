@@ -24,7 +24,6 @@ describe("Example", function () {
     let ethExample: Contract;
 
     before(async function () {
-
         owner = await starknet.OpenZeppelinAccount.createAccount();
 
         await mint(owner.address, 1e18);
@@ -46,7 +45,7 @@ describe("Example", function () {
     });
 
     describe("Test getKeccak", function () {
-        it("Should have the same hash than solidity", async function () {
+        it("Should have the same hash as solidity", async function () {
             const { hash: hash } = await exampleContract.call("getKeccakHash", {
                 value_uint256: uint256.bnToUint256(230), address: "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
             });
