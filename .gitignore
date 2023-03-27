@@ -1,0 +1,6 @@
+node_modules
+starknet-artifacts/
+cache/
+artifacts/
+typechain-types/
+
