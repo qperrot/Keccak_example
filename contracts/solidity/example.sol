@@ -33,4 +33,14 @@ contract Example {
     ) public pure returns (bytes32) {
         return keccak256(abi.encodePacked(_address, _value));
     }
+
+    // / @dev Return abi.,encodePacked hash.
+    // / @param _address An address.
+    // / @param _value A value of type uint256.
+    // function getAbiEncodePacked(
+    //     address _address,
+    //     uint256 _value
+    // ) public pure returns (bytes memory) {
+    //     return abi.encodePacked(_address, _value);
+    // }
 }

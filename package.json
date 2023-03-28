@@ -48,6 +48,9 @@
     },
     "scripts": {
         "compile": "hardhat starknet-compile",
-        "test": "hardhat --network localhost test"
+        "test": "hardhat --network localhost test",
+        "test:exercise1": "hardhat --network localhost test ./exercises/Exercise1.test.ts",
+        "test:exercise2": "hardhat --network localhost test ./exercises/Exercise2.test.ts",
+        "test:exercise3": "hardhat --network localhost test ./exercises/Exercise3.test.ts"
     }
 }
