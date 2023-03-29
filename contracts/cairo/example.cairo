@@ -20,7 +20,7 @@ func constructor{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     return ();
 }
 
-// Similare to keccak256(abi.encodePacked(a_uint256, b_uint256));
+// Similar to keccak256(abi.encodePacked(a_uint256, b_uint256));
 @view
 func getKeccakOnlyUint{
     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
@@ -40,7 +40,7 @@ func getKeccakOnlyUint{
     return (hash,);
 }
 
-// Similare to keccak256(abi.encodePacked(uint256, address));
+// Similar to keccak256(abi.encodePacked(uint256, address));
 @view
 func getKeccakUintAddress{
     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
@@ -68,7 +68,7 @@ func getKeccakUintAddress{
     return (hash,);
 }
 
-// Similare to keccak256(abi.encodePacked(address, uint256));
+// Similar to keccak256(abi.encodePacked(address, uint256));
 @view
 func getKeccakAddressUint{
     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*

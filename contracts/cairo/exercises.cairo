@@ -20,7 +20,7 @@ func constructor{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     return ();
 }
 
-// Similare to keccak256(abi.encodePacked(a_uint256, b_uint256));
+// Similar to keccak256(abi.encodePacked(a_uint256, b_uint256));
 // @view
 // func exercise1{
 //     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
@@ -29,14 +29,14 @@ func constructor{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
 // ) {
 // }
 
-// Similare to keccak256(abi.encodePacked(uint256,bytes32, address));
+// Similar to keccak256(abi.encodePacked(uint256,bytes32, address));
 // @view
 // func exercise2{
 //     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
 // }(a_uint256: Uint256, b_uint256: Uint256, address: felt) -> (hash: Uint256) {
 // }
 
-// Similare to keccak256(abi.encodePacked(uint256, address, uint256, uint256));
+// Similar to keccak256(abi.encodePacked(uint256, address, uint256, uint256));
 // @view
 // func exercise3{
 //     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*

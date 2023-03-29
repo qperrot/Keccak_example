@@ -1,32 +1,34 @@
-# Keccak_example
-Example of How to make Cairo's Keccak hash to match with Solidity’s Keccak and vice-versa?
+# Solidity <> Cairo Keccak example
+
+Example repo on how to make Cairo's Keccak hash match with Solidity’s Keccak and vice-versa!
 
 ## Contracts
-The `contracts` directory contains the following subfolders:
+The `contracts` directory contains the following sub-folders:
 
 ```
 contracts/cairo
 	utils/ - contains utility functions as bytes and some other common functions
-	exemple.cairo - the main contract that calculate keccak256(abi.encodePacked(...)) in cairo;
+	example.cairo - the main contract that calculate keccak256(abi.encodePacked(...)) in cairo.
 
 contracts/solidity
-	exemple.sol - the main contract that return keccak256(abi.encodePacked(...));
+	example.sol - the main contract that return keccak256(abi.encodePacked(...));
 ```
 
 ## Functions
 
-- `getKeccakOnlyUint` return keccak256(abi.encodePacked(uint256, uint256));
-
-- `getKeccakUintAddress` return keccak256(abi.encodePacked(uint256, address));
-
-- `getKeccakAddressUint` return keccak256(abi.encodePacked(address, uint256));
+- `getKeccakOnlyUint` 
 ```
-contracts/cairo
-	utils/ - contains utility functions as bytes and some other common functions
-	exemple.cairo - the main contract that calculate keccak256(abi.encodePacked(...)) in cairo;
+return keccak256(abi.encodePacked(uint256, uint256));
+```
 
-contracts/solidity
-	exemple.sol - the main contract that return keccak256(abi.encodePacked(...));
+- `getKeccakUintAddress` 
+```
+return keccak256(abi.encodePacked(uint256, address));
+```
+
+- `getKeccakAddressUint`
+```
+return keccak256(abi.encodePacked(address, uint256));
 ```
 
 ## Running the tests
@@ -41,3 +43,8 @@ contracts/solidity
 1. Open another terminal, then run `starknet-devnet`.
 
 1. `yarn test` to execute the test.
+
+
+## Exercises
+
+In the `/exercises` folder you can find couple of tests to play with and try to get the same hash!

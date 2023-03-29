@@ -10,7 +10,7 @@ func felt_to_uint256{range_check_ptr}(x) -> (uint_x: Uint256) {
     return (Uint256(low=low, high=high),);
 }
 
-// Need to know the len to do right pad
+// Need to know the len to do the right pad
 func pad_right{range_check_ptr}(num: Uint256, len: felt) -> (res: Uint256) {
     let len_base16 = len * 2;
     let base = 16;

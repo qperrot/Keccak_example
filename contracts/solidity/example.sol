@@ -34,6 +34,9 @@ contract Example {
         return keccak256(abi.encodePacked(_address, _value));
     }
 
+
+    // Uncomment for exercises!
+    //
     // / @dev Return abi.,encodePacked hash.
     // / @param _address An address.
     // / @param _value A value of type uint256.
