@@ -36,14 +36,17 @@ return keccak256(abi.encodePacked(address, uint256));
 
 1. `yarn install` to install the required packages including [StarkNet.js](https://www.starknetjs.com/), [HardHat](https://hardhat.org/), and the [StarkNet Hardhat Plugin](https://shard-labs.github.io/starknet-hardhat-plugin/).
 
+> make sure you have at least cairo lang version 0.10.3, check with -> starknet --version
+
 1. `yarn compile` to create `./starknet-artifacts/` with the compiled contracts.
 
 1. Open another terminal, then run `npx hardhat node`.
 
-1. Open another terminal, then run `starknet-devnet`.
+> make sure you are running devnet version at least 0.4.4
+
+1. Open another terminal, then run ` starknet-devnet --seed 0`.
 
 1. `yarn test` to execute the test.
-
 
 ## Exercises
 
