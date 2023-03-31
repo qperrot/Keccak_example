@@ -56,6 +56,7 @@ func u256_pow{range_check_ptr}(base: felt, exp: felt) -> (res: Uint256) {
     }
 }
 
+// Returns the number of digits needed to represent num in hexadecimal.
 func get_base16_len{range_check_ptr}(num: Uint256) -> (res: felt) {
     let (is_eq) = uint256_eq(num, Uint256(0, 0));
     if (is_eq == TRUE) {
