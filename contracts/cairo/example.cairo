@@ -12,7 +12,7 @@ from starkware.cairo.common.cairo_keccak.keccak import (
 from starkware.cairo.common.bool import TRUE
 from starkware.cairo.common.memcpy import memcpy
 
-from utils.common import felt_to_uint256, pad_right
+from utils.common import felt_to_uint256, pad_right, get_bytes_len
 from utils.bytes import bytes32_to_uint256, bytes_i_to_uint256, uint256_to_bytes_array
 
 @constructor
@@ -96,6 +96,40 @@ func getKeccakAddressUint{
     let (hash) = keccak_bigend{keccak_ptr=keccak_ptr}(inputs=signable_bytes_start, n_bytes=32 + 20);
 
     finalize_keccak(keccak_ptr_start=keccak_ptr_start, keccak_ptr_end=keccak_ptr);
+    return (hash,);
+}
+
+// Similar to keccak256(abi.encodePacked(a_uint8, b_uint8));
+@view
+func getKeccakUint8{
+    syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
+}(a_uint8: Uint256, b_uint8: Uint256) -> (hash: Uint256) {
+    alloc_locals;
+    let (local keccak_ptr: felt*) = alloc();
+    let keccak_ptr_start = keccak_ptr;
+    let (a_bytes_len) = get_bytes_len(a_uint8);
+    let (b_bytes_len) = get_bytes_len(b_uint8);
+
+    // Do right padding if address len is less than 32
+    let (b_uint8_pad) = pad_right(b_uint8, b_bytes_len);
+
+    let (a_uint8, b_uint8_pad) = _fill_bytes_array(a_uint8, b_uint8_pad, a_bytes_len);
+    let (a_bytes_len) = get_bytes_len(a_uint8);
+
+    let (b_bytes_len) = get_bytes_len(b_uint8_pad);
+
+    let (data_uint: Uint256*) = alloc();
+    assert data_uint[0] = a_uint8;
+
+    let (signable_bytes) = alloc();
+    let signable_bytes_start = signable_bytes;
+    keccak_add_uint256s{inputs=signable_bytes}(n_elements=1, elements=data_uint, bigend=TRUE);
+
+    // Compute the hash
+    let (hash) = keccak_bigend{keccak_ptr=keccak_ptr}(inputs=signable_bytes_start, n_bytes=2);
+
+    finalize_keccak(keccak_ptr_start=keccak_ptr_start, keccak_ptr_end=keccak_ptr);
+
     return (hash,);
 }
 
