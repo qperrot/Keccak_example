@@ -34,7 +34,7 @@ contract Example {
         return keccak256(abi.encodePacked(_address, _value));
     }
 
-    // @dev Calculates keccak hash.
+    /// @dev Calculates keccak hash.
     /// @param _a_uint A value of type uint8.
     /// @param _b_uint A value of type uint8.
     function getKeccakUint8(
