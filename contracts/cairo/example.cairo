@@ -116,8 +116,6 @@ func getKeccakUint8{
     let (a_uint8, b_uint8_pad) = _fill_bytes_array(a_uint8, b_uint8_pad, a_bytes_len);
     let (a_bytes_len) = get_bytes_len(a_uint8);
 
-    let (b_bytes_len) = get_bytes_len(b_uint8_pad);
-
     let (data_uint: Uint256*) = alloc();
     assert data_uint[0] = a_uint8;
 
