@@ -77,5 +77,16 @@ describe("Example", function () {
             console.log("Starknet hash: ", starknetHash);
             expect(solidityHash).to.deep.equal(starknetHash);
         });
+
+        it("Should have the same hash as solidity keccak256(abi.encodePacked(uint8, uint8))", async function () {
+            const { hash: hash } = await exampleContract.call("getKeccakUint8", {
+                a_uint8: uint256.bnToUint256(2), b_uint8: uint256.bnToUint256(9)
+            });
+            const solidityHash = await ethExample.getKeccakUint8(2, 9);
+            const starknetHash = "0x" + uint256.uint256ToBN(hash).toString(16);
+            console.log("Solidity hash: ", solidityHash);
+            console.log("Starknet hash: ", starknetHash);
+            expect(solidityHash).to.deep.equal(starknetHash);
+        });
     });
 });

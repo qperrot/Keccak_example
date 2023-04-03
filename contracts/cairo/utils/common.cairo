@@ -3,7 +3,16 @@
 from starkware.cairo.common.math import split_felt
 from starkware.cairo.common.cairo_builtins import HashBuiltin, BitwiseBuiltin
 from starkware.cairo.common.alloc import alloc
-from starkware.cairo.common.uint256 import Uint256, uint256_mul, assert_uint256_eq
+from starkware.cairo.common.bool import TRUE, FALSE
+from starkware.cairo.common.uint256 import (
+    Uint256,
+    uint256_mul,
+    assert_uint256_eq,
+    uint256_eq,
+    uint256_le,
+    uint256_unsigned_div_rem,
+)
+from starkware.cairo.common.math import unsigned_div_rem
 
 func felt_to_uint256{range_check_ptr}(x) -> (uint_x: Uint256) {
     let (high, low) = split_felt(x);
@@ -45,4 +54,55 @@ func u256_pow{range_check_ptr}(base: felt, exp: felt) -> (res: Uint256) {
 
         return (res,);
     }
+}
+
+// Returns the number of digits needed to represent num in hexadecimal.
+func get_base16_len{range_check_ptr}(num: Uint256) -> (res: felt) {
+    let (is_eq) = uint256_eq(num, Uint256(0, 0));
+    if (is_eq == TRUE) {
+        return (0,);
+    }
+    let (lt) = uint256_le(Uint256(16 ** 32, 0), num);
+    if (lt == TRUE) {
+        let (divided, _) = uint256_unsigned_div_rem(num, Uint256(16 ** 32, 0));
+        let (res_len) = get_base16_len(divided);
+        return (res_len + 32,);
+    }
+    let (lt) = uint256_le(Uint256(16 ** 16, 0), num);
+    if (lt == TRUE) {
+        let (divided, _) = uint256_unsigned_div_rem(num, Uint256(16 ** 16, 0));
+        let (res_len) = get_base16_len(divided);
+        return (res_len + 16,);
+    }
+    let (lt) = uint256_le(Uint256(16 ** 8, 0), num);
+    if (lt == TRUE) {
+        let (divided, _) = uint256_unsigned_div_rem(num, Uint256(16 ** 8, 0));
+        let (res_len) = get_base16_len(divided);
+        return (res_len + 8,);
+    }
+    let (lt) = uint256_le(Uint256(16 ** 4, 0), num);
+    if (lt == TRUE) {
+        let (divided, _) = uint256_unsigned_div_rem(num, Uint256(16 ** 4, 0));
+        let (res_len) = get_base16_len(divided);
+        return (res_len + 4,);
+    }
+    let (lt) = uint256_le(Uint256(16 ** 2, 0), num);
+    if (lt == TRUE) {
+        let (divided, _) = uint256_unsigned_div_rem(num, Uint256(16 ** 2, 0));
+        let (res_len) = get_base16_len(divided);
+        return (res_len + 2,);
+    }
+    let (lt) = uint256_le(Uint256(16 ** 1, 0), num);
+    if (lt == TRUE) {
+        let (divided, _) = uint256_unsigned_div_rem(num, Uint256(16 ** 1, 0));
+        let (res_len) = get_base16_len(divided);
+        return (res_len + 1,);
+    }
+    return (1,);
+}
+
+func get_bytes_len{range_check_ptr}(num: Uint256) -> (res: felt) {
+    let (len_base16) = get_base16_len(num);
+    let (bytes_len, _) = unsigned_div_rem(len_base16 + 1, 2);
+    return (bytes_len,);
 }
