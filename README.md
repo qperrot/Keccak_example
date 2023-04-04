@@ -31,6 +31,11 @@ return keccak256(abi.encodePacked(uint256, address));
 return keccak256(abi.encodePacked(address, uint256));
 ```
 
+- `getKeccakUint8`
+```
+return keccak256(abi.encodePacked(uint8, uint8));
+```
+
 ## Running the tests
 1. Make sure to have docker installed and running.
 
