@@ -55,4 +55,4 @@ return keccak256(abi.encodePacked(uint8, uint8));
 
 ## Exercises
 
-In the `/exercises` folder you can find couple of tests to play with and try to get the same hash!
+In the `./exercises` folder you can find couple of tests to play with and try to get the same hash!

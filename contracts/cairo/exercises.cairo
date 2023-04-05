@@ -43,6 +43,13 @@ func constructor{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
 // }(a_uint256: Uint256, address: felt, b_uint256: Uint256, c_uint256: Uint256) -> (hash: Uint256) {
 // }
 
+// Similar to keccak256(abi.encodePacked(uint256, address, uint8, uint8));
+// @view
+// func exercise4{
+//     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
+// }(a_uint256: Uint256, address: felt, b_uint8: Uint256, c_uint8: Uint256) -> (hash: Uint256) {
+// }
+
 func _fill_bytes_array{
     syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
 }(first: Uint256, second: Uint256, len: felt) -> (first: Uint256, second: Uint256) {

@@ -12,7 +12,7 @@ from starkware.cairo.common.cairo_keccak.keccak import (
 from starkware.cairo.common.bool import TRUE
 from starkware.cairo.common.memcpy import memcpy
 
-from utils.common import felt_to_uint256, pad_right
+from utils.common import felt_to_uint256, pad_right, get_bytes_len
 from utils.bytes import bytes32_to_uint256, bytes_i_to_uint256, uint256_to_bytes_array
 
 @constructor
@@ -106,6 +106,42 @@ func exercise3{
     let (hash) = keccak_bigend{keccak_ptr=keccak_ptr}(
         inputs=signable_bytes_start, n_bytes=3 * 32 + 20
     );
+
+    finalize_keccak(keccak_ptr_start=keccak_ptr_start, keccak_ptr_end=keccak_ptr);
+    return (hash,);
+}
+
+// Similar to keccak256(abi.encodePacked(uint256, address, uint8, uint8));
+@view
+func exercise4{
+    syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*
+}(a_uint256: Uint256, address: felt, b_uint8: Uint256, c_uint8: Uint256) -> (hash: Uint256) {
+    alloc_locals;
+    let (local keccak_ptr: felt*) = alloc();
+    let keccak_ptr_start = keccak_ptr;
+    let (b_bytes_len) = get_bytes_len(b_uint8);
+    let (c_bytes_len) = get_bytes_len(c_uint8);
+
+    // Do right padding of the last uint8
+    let (c_uint8_pad) = pad_right(c_uint8, c_bytes_len);
+
+    // Fill b_uint8 with c_uint8_pad so the first 2 bytes of b_uint8 will be 0x09 and 0x03
+    let (b_uint8, c_uint8_pad) = _fill_bytes_array(b_uint8, c_uint8_pad, b_bytes_len);
+
+    let (address_uint256) = felt_to_uint256(address);
+    // Move bytes so only last array will be less than 32 bytes
+    let (address_uint256, b_uint8) = _fill_bytes_array(address_uint256, b_uint8, 20);
+
+    let (data_uint: Uint256*) = alloc();
+    assert data_uint[0] = a_uint256;
+    assert data_uint[1] = address_uint256;
+
+    let (signable_bytes) = alloc();
+    let signable_bytes_start = signable_bytes;
+    keccak_add_uint256s{inputs=signable_bytes}(n_elements=2, elements=data_uint, bigend=TRUE);
+
+    // Compute the hash
+    let (hash) = keccak_bigend{keccak_ptr=keccak_ptr}(inputs=signable_bytes_start, n_bytes=32 + 22);
 
     finalize_keccak(keccak_ptr_start=keccak_ptr_start, keccak_ptr_end=keccak_ptr);
     return (hash,);
