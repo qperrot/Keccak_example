@@ -1,5 +1,5 @@
 # Keccak_exercises
-Make tests under `exercises/ExerciseN.test.ts` passe by modifying the `exercises.cairo` contract under `contracts/cairo/exercises.cairo`.
+Make tests under `exercises/ExerciseN.test.ts` pass by modifying the `exercises.cairo` contract under `contracts/cairo/exercises.cairo`.
 
 There are three muted functions, unmute and complete them before compilation.
 - Compile your contract using `yarn compile`.
